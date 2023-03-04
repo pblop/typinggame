@@ -1,0 +1,4 @@
+typinggame
+*.o
+*.dSYM
+*.log
