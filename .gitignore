@@ -2,3 +2,5 @@ typinggame
 *.o
 *.dSYM
 *.log
+
+*.txt # dictionaries
