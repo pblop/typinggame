@@ -12,6 +12,7 @@ void setup_sigint_handler(void);
 void sigint_handler(int signum)/*{{{*/
 {
   unsetup_screen();
+  exit(0);
 }/*}}}*/
 void setup_sigint_handler(void)/*{{{*/
 {
