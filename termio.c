@@ -1,11 +1,11 @@
-#include "terminput.h"
+#include "termio.h"
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/select.h>
 
 // Copied this fn from
 // https://stackoverflow.com/questions/448944/c-non-blocking-keyboard-input
-int kbhit()
+int kbhit()/*{{{*/
 {
   struct timeval tv = {0L, 0L};
 
@@ -13,8 +13,8 @@ int kbhit()
   FD_ZERO(&fds);
   FD_SET(0, &fds);
   return select(1, &fds, NULL, NULL, &tv) > 0;
-}
-termkey_t get_user_input()
+}/*}}}*/
+termkey_t get_user_input()/*{{{*/
 {
   int c;
 
@@ -87,9 +87,9 @@ int setup_screen(void)
   tcsetattr(STDIN_FILENO, TCSAFLUSH, &tattr);
   
   return 0;
-}
+}/*}}}*/
 
-int ensure_screen_size(void)
+int ensure_screen_size(void)/*{{{*/
 {
   int width, height, prevwidth, prevheight;
 
@@ -118,9 +118,9 @@ int ensure_screen_size(void)
   }
 
   return 0;
-}
+}/*}}}*/
 
-int get_window_size(int *width, int *height)
+int get_window_size(int *width, int *height)/*{{{*/
 {
   struct winsize ws;
   if (ioctl(0, TIOCGWINSZ, &ws) != 0)
@@ -132,5 +132,5 @@ int get_window_size(int *width, int *height)
   *width = ws.ws_col;
   *height = ws.ws_row;
   return 0;
-}
+}/*}}}*/
 

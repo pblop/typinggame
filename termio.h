@@ -6,7 +6,7 @@
 #define GOTO CSI"%d;%dH"
 #define GOTO_HOME CSI"H"
 #define CLEAR CSI"2J"
-#define HIDE_CUROR CSI"?25l"
+#define HIDE_CURSOR CSI"?25l"
 #define SHOW_CURSOR CSI"?25h"
 #define RGB_COLOUR CSI"38;2;%d;%d;%dm"
 #define REMOVE_COLOUR CSI"39m"
