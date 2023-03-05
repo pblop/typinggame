@@ -3,4 +3,5 @@ typinggame
 *.dSYM
 *.log
 
-*.txt # dictionaries
+# dictionaries
+*.txt 
