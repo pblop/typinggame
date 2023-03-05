@@ -29,6 +29,7 @@ void setup_sigint_handler(void)/*{{{*/
 
 int main()
 {
+  game_t game;
 
   /* Screen and exit setup */
   setup_screen();
@@ -36,6 +37,11 @@ int main()
   printf(HIDE_CURSOR CLEAR GOTO_HOME);
 
   /* Game stuff */
+  if (init_game(&game) != 0)
+    exitf(1);
+
+  if (load_dict(&game, "words.txt") != 0)
+    exitf(2);
 
   /* Finish */
   unsetup_screen();
