@@ -2,6 +2,10 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/select.h>
+#include <sys/ioctl.h>
+
+#define SCREEN_HEIGHT 30
+#define SCREEN_WIDTH 30
 
 // Copied this fn from
 // https://stackoverflow.com/questions/448944/c-non-blocking-keyboard-input
@@ -61,10 +65,9 @@ termkey_t get_user_input()/*{{{*/
 
 
   return KEY_NONE;
-}
+}/*}}}*/
 
-
-int setup_screen(void)
+int setup_screen(void)/*{{{*/
 {
   struct termios tattr;
   sigset_t empty_set;
@@ -88,6 +91,13 @@ int setup_screen(void)
   
   return 0;
 }/*}}}*/
+void unsetup_screen(void)/*{{{*/
+{
+  tcsetattr(STDIN_FILENO, TCSANOW, &orig_screen_attrs);
+  printf(SHOW_CURSOR REMOVE_COLOUR REMOVE_BACKGROUND CLEAR GOTO_HOME);
+  fflush(stdout);
+}
+/*}}}*/
 
 int ensure_screen_size(void)/*{{{*/
 {
@@ -119,7 +129,6 @@ int ensure_screen_size(void)/*{{{*/
 
   return 0;
 }/*}}}*/
-
 int get_window_size(int *width, int *height)/*{{{*/
 {
   struct winsize ws;
