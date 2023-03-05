@@ -1,13 +1,16 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <signal.h>
 #include "termio.h"
 
+#define exitf(num) {unsetup_screen(); exit(num);}
+
 void sigint_handler(int signum);
 
-void sigint_handler(int signum)
+void sigint_handler(int signum)/*{{{*/
 {
   unsetup_screen();
-}
+}/*}}}*/
 
 int main()
 {
