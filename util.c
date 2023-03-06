@@ -23,7 +23,7 @@ int init_game(game_t* game)/*{{{*/
 
   // Init words.
   for (int i = 0; i < SCREEN_HEIGHT; i++)
-    game->words[i] = (scrword_t) {NULL, 0, 0, 0};
+    game->words[i] = (scrword_t) {NULL, 0, 0, 0, 0, 0};
 
   return 0;
 }
@@ -134,7 +134,12 @@ int put_word_in_game(game_t* game)/*{{{*/
     return 0;
 
   int chosen_slot = free_numbers[rand() % free_numbers_len];
-  game->words[chosen_slot].ptr =choose_random_word(game);
+  char* word = choose_random_word(game);
+  game->words[chosen_slot].ptr = word;
+  game->words[chosen_slot].length = strlen(word);
+  game->words[chosen_slot].clock = clock(); // This could be an issue if it overflows.
+                                            // For a little bit the newest words could
+                                            // look like the oldest for the program.
   
   // NOTE: We don't set the other values of the word, because when a spot is
   // emptied they should be all set to the init_game defaults.
@@ -147,6 +152,12 @@ bool is_word_finished(scrword_t* word)/*{{{*/
   if (word == NULL)
     return true;
 
-  return word->typedchars == strlen(word->ptr) - 1;
+  return word->typedchars == word->length - 1;
 }
 /*}}}*/
+
+void clear_word(game_t* game, int word_i)/*{{{*/
+{
+  game->words[word_i] = (scrword_t) {NULL, 0, 0, 0, 0, 0};
+}/*}}}*/
+

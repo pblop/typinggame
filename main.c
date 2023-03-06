@@ -178,14 +178,12 @@ int main_loop(game_t *game)/*{{{*/
     if (word->y+i+1 >= WORD_AMOUNT)
     {
       // Word has reached the bottom of the screen. Remove it.
-      free(word->ptr);
-      word->ptr = NULL;
+      clear_word(game, i);
     }
     if (word->x >= SCREEN_WIDTH)
     {
       // Word has hit the left of the screen. Remove it.
-      free(word->ptr);
-      word->ptr = NULL;
+      clear_word(game, i);
       game->lives--;
     }
   }

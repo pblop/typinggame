@@ -2,14 +2,17 @@
 #define __UTIL_H
 
 #include <stdio.h>
+#include <time.h>
 #include "common.h"
 
 typedef struct {
   // A pointer to the word. If this word is not currently on screen, this
   // ptr is NULL.
   char* ptr;
+  unsigned int length;
+
   // The number of chars the user has correctly typed in the current word.
-  int typedchars;
+  unsigned int typedchars;
 
   // The distance of the first character from the right side of the screen.
   // When it reaches -1, you're down a life.
@@ -20,6 +23,9 @@ typedef struct {
   // This is to animate words falling off the screen whenever the user types
   // all their characters correctly.
   int y;
+
+  // The moment this word was created.
+  clock_t clock;
 } scrword_t;
 
 typedef struct {
@@ -50,5 +56,6 @@ char* choose_random_word(game_t* game);
 // This places a random word into the game.
 int put_word_in_game(game_t* game);
 bool is_word_finished(scrword_t* word);
+void clear_word(game_t* game, int word_i);
 
 #endif
