@@ -69,6 +69,7 @@ int main()
   if (init_game(&game) != 0)
     exitf(1);
 
+  fprintf(stderr, "Loading words...\n");
   if (load_dict(&game, "words.txt") != 0)
     exitf(2);
 
