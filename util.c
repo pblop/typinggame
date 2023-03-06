@@ -97,8 +97,6 @@ char* choose_random_word(game_t* game)
   if (game == NULL)
     return NULL;
 
-  
-  
-
-  return 0;
+  int n = rand() % game->dictsize;
+  return game->dict[n];
 }

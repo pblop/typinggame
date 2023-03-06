@@ -43,6 +43,9 @@ int main()
   if (load_dict(&game, "words.txt") != 0)
     exitf(2);
 
+  while(1) {
+    printf("%s", choose_random_word(&game));
+  }
   /* Finish */
   unsetup_screen();
 
