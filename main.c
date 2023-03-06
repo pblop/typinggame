@@ -155,7 +155,7 @@ int main_loop(game_t *game)/*{{{*/
       free(word->ptr);
       word->ptr = NULL;
     }
-    if (word->x == 0)
+    if (word->x >= SCREEN_WIDTH)
     {
       // Word has hit the left of the screen. Remove it.
       free(word->ptr);
@@ -166,7 +166,6 @@ int main_loop(game_t *game)/*{{{*/
 
   if (game->lives == 0)
     return 1;
-
 
   if (game->frame % 100 == 0)
     put_word_in_game(game);
@@ -192,7 +191,6 @@ int main()
   if (load_dict(&game, "words.txt") != 0)
     exitf(2);
   fprintf(stderr, "Done!\n");
-
 
   while(1) {
     if (ensure_screen_size() != 0)
