@@ -17,6 +17,8 @@
 #define REMOVE_COLOUR CSI"39m"
 #define RGB_BACKGROUND CSI"48;2;%d;%d;%dm"
 #define REMOVE_BACKGROUND CSI"49m"
+#define UNDERLINE_ON CSI"4m"
+#define UNDERLINE_OFF CSI"24m"
 
 struct termios orig_screen_attrs;
 clock_t frame_start;

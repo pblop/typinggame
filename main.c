@@ -50,8 +50,10 @@ int draw_screen(game_t *game)/*{{{*/
   for (int y = 1; y <= SCREEN_HEIGHT; y++)
     printf(GOTO CLEAR_LINE_TO_START, y, SCREEN_WIDTH);
 
-  // TODO: Print each word character, in one colour if it has already been
+  // Print each word character, in one colour if it has already been
   // typed, and in another one if it has not yet been typed.
+  // TODO: Underline the current selected word.
+  bool is_current_word = true;
   for (int k = 0; k < 2; k++)
   {
     for (int i = 0; i < SCREEN_HEIGHT; i++)
@@ -75,11 +77,19 @@ int draw_screen(game_t *game)/*{{{*/
       // screen). And at most len characters (the length of the word).
       for (int j = 0; j < x && j < len; j++)
       {
+        if (is_current_word && !is_word_finished(word))
+          printf(UNDERLINE_ON);
         if (j < word->typedchars)
           printf(GOTO RGB_COLOUR, i+1+y, SCREEN_WIDTH - (x - j), TYPED_CHAR_COLOUR);
         else
           printf(GOTO RGB_COLOUR, i+1+y, SCREEN_WIDTH - (x - j), UNTYPED_CHAR_COLOUR);
         printf("%c", word->ptr[j]);
+      }
+
+      if (is_current_word && !is_word_finished(word))
+      {
+        printf(UNDERLINE_OFF);
+        is_current_word = false;
       }
     }
   }

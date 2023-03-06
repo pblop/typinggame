@@ -142,11 +142,11 @@ int put_word_in_game(game_t* game)/*{{{*/
   return 0;
 }/*}}}*/
 
-bool is_word_finished(scrword_t* word)
+bool is_word_finished(scrword_t* word)/*{{{*/
 {
   if (word == NULL)
     return true;
 
   return word->typedchars == strlen(word->ptr) - 1;
 }
-
+/*}}}*/
