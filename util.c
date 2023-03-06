@@ -110,3 +110,26 @@ char* choose_random_word(game_t* game)/*{{{*/
   int n = rand() % game->dictsize;
   return game->dict[n];
 }/*}}}*/
+
+int put_word_in_game(game_t* game)/*{{{*/
+{
+  if (game == NULL)
+    return -1;
+
+  int free_numbers[SCREEN_HEIGHT]; // The horizontal lines that don't yet have a
+                                   // word in them.
+  int free_numbers_len = 0; // The number of horizontal lines that ...
+  for (int i = 0; i < SCREEN_HEIGHT; i++)
+  {
+    if (game->words[i].ptr != NULL)
+      free_numbers[free_numbers_len++] = i;
+  }
+
+  int chosen_slot = rand() % free_numbers_len;
+
+  game->words[chosen_slot].ptr = choose_random_word(game);
+  // NOTE: We don't set the other values of the word, because when a spot is
+  // emptied they should be all set to the init_game defaults.
+
+  return 0;
+}/*}}}*/
