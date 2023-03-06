@@ -27,7 +27,7 @@ int init_game(game_t* game)/*{{{*/
 }
 /*}}}*/
 
-char* mall_fword(FILE* fp)
+char* mall_fword(FILE* fp)/*{{{*/
 {
   // Move the file pointer until we find a word end ('\n' or EOF),
   // then go back to the initial location and allocate and fill that string.
@@ -66,7 +66,7 @@ char* mall_fword(FILE* fp)
 
   return word;
 }
-
+/*}}}*/
 int load_dict(game_t* game, char* filename)/*{{{*/
 {
   if (game == NULL)

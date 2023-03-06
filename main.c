@@ -13,6 +13,7 @@ void sigint_handler(int signum);
 void setup_sigint_handler(void);
 int draw_screen(game_t *game);
 int handle_user_input(game_t *game, termkey_t pressed_key);
+int main_loop(game_t *game);
 
 void sigint_handler(int signum)/*{{{*/
 {
@@ -38,7 +39,7 @@ int draw_screen(game_t *game)/*{{{*/
   printf(CLEAR REMOVE_COLOUR REMOVE_BACKGROUND GOTO_HOME
          RGB_BACKGROUND GOTO, BACKGROUND_COLOUR, SCREEN_HEIGHT, SCREEN_WIDTH);
 
-
+  
 
   return 0;
 }
@@ -57,6 +58,15 @@ int handle_user_input(game_t *game, termkey_t pressed_key)/*{{{*/
   return 0;
 }
 /*}}}*/
+int main_loop(game_t *game)/*{{{*/
+{
+  if (game == NULL)
+    return -1;
+
+  
+
+  return 0;
+}/*}}}*/
 
 int main()
 {
@@ -85,6 +95,9 @@ int main()
       if (handle_user_input(&game, user_key) != 0)
         exitf(3);
     }
+
+    if (main_loop(&game) != 0)
+      exitf(6);
 
     if (draw_screen(&game) != 0)
       exitf(4);
