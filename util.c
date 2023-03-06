@@ -57,7 +57,6 @@ char* mall_fword(FILE* fp)/*{{{*/
     return NULL;
 
   // Allocate the word
-  char* word = malloc(word_len * sizeof(char));
   char* word = malloc((word_len+1) * sizeof(char));
   if (word == NULL)
     return NULL;
@@ -94,7 +93,7 @@ int load_dict(game_t* game, char* filename)/*{{{*/
     return -3;
 
   int wordn = 0;
-  for (int wordn = 0; wordn < game->dictsize; wordn++)
+  for (wordn = 0; wordn < game->dictsize; wordn++)
   {
     char* word = mall_fword(fp);
     if (word == NULL)
@@ -124,18 +123,18 @@ int put_word_in_game(game_t* game)/*{{{*/
                                    // word in them.
   int free_numbers_len = 0; // The number of horizontal lines that ...
 
-  if (free_numbers_len <= 0)
-    return 0;
-
   for (int i = 0; i < SCREEN_HEIGHT; i++)
   {
-    if (game->words[i].ptr != NULL)
+    if (game->words[i].ptr == NULL)
       free_numbers[free_numbers_len++] = i;
   }
 
-  int chosen_slot = rand() % free_numbers_len;
+  if (free_numbers_len <= 0)
+    return 0;
 
-  game->words[chosen_slot].ptr = choose_random_word(game);
+  int chosen_slot = free_numbers[rand() % free_numbers_len];
+  game->words[chosen_slot].ptr =choose_random_word(game);
+  
   // NOTE: We don't set the other values of the word, because when a spot is
   // emptied they should be all set to the init_game defaults.
 
