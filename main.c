@@ -4,10 +4,15 @@
 #include "termio.h"
 #include "util.h"
 #include "common.h"
+#include <time.h>
+#include <unistd.h>
+#include <strings.h>
 
 #define exitf(num) {unsetup_screen(); exit(num);}
 
-#define BACKGROUND_COLOUR 50, 50, 200
+#define BACKGROUND_COLOUR 150, 150, 255
+#define UNTYPED_CHAR_COLOUR 255, 0, 0
+#define TYPED_CHAR_COLOUR 0, 255, 0
 
 void sigint_handler(int signum);
 void setup_sigint_handler(void);
@@ -35,13 +40,38 @@ void setup_sigint_handler(void)/*{{{*/
 
 int draw_screen(game_t *game)/*{{{*/
 {
-  // Fill the background with blue.
-  printf(CLEAR REMOVE_COLOUR REMOVE_BACKGROUND GOTO_HOME
-         RGB_BACKGROUND GOTO, BACKGROUND_COLOUR, SCREEN_HEIGHT, SCREEN_WIDTH);
+  // Clear everything. New frame.
+  printf(REMOVE_COLOUR REMOVE_BACKGROUND CLEAR);
+  // Draw the background.
+  printf(RGB_BACKGROUND, BACKGROUND_COLOUR);
+  for (int y = 1; y <= SCREEN_HEIGHT; y++)
+    printf(GOTO CLEAR_LINE_TO_START, y, SCREEN_WIDTH);
 
   // TODO: Print each word character, in one colour if it has already been
   // typed, and in another one if it has not yet been typed.
+  for (int i = 0; i < SCREEN_HEIGHT; i++)
+  {
+    scrword_t *word = &game->words[i];
+    if (word->ptr == NULL)
+      continue; // No word.
 
+    int x = word->x;
+    int y = word->y;
+    int len = strlen(word->ptr);
+
+    // Only display x characters (because only x characters are shown on the
+    // screen). And at most len characters (the length of the word).
+    for (int j = 0; j < x && j < len; j++)
+    {
+      if (j < word->typedchars)
+        printf(GOTO RGB_COLOUR, i+y, SCREEN_WIDTH - (x - j), TYPED_CHAR_COLOUR);
+      else
+        printf(GOTO RGB_COLOUR, i+y, SCREEN_WIDTH - (x - j), UNTYPED_CHAR_COLOUR);
+      printf("%c", word->ptr[j]);
+    }
+  }
+
+  fflush(stdout);
   return 0;
 }
 /*}}}*/
@@ -73,6 +103,17 @@ int main_loop(game_t *game)/*{{{*/
   //       the word speed relative to the spent time, or the score.
   // TODO: Move every word that's finished (strlen(word.ptr) == word.typedchars)
   //       down (increment y).
+  if (game->frame % 100) {
+    for (int i = 0; i < SCREEN_HEIGHT; i++)
+    {
+      scrword_t *word = &game->words[i];
+      if (word->ptr == NULL)
+        continue; // No word.
+
+      word->x++;
+    }
+  }
+
 
   return 0;
 }/*}}}*/
@@ -96,14 +137,7 @@ int main()
     exitf(2);
   fprintf(stderr, "Done!\n");
 
-  for (int i = 0; i < 100; i++)
-    fprintf(stderr, "%s\n", game.dict[i]);
-
   put_word_in_game(&game);
-  for (int i = 0; i < SCREEN_HEIGHT; i++)
-    fprintf(stderr, "%s", game.words[i].ptr);
-
-  while (1);
 
   while(1) {
     if (ensure_screen_size() != 0)
@@ -118,11 +152,12 @@ int main()
     if (main_loop(&game) != 0)
       exitf(6);
 
-    if (draw_screen(&game) != 0)
-      exitf(4);
+    if (game.frame % 50 == 0)
+      if (draw_screen(&game) != 0)
+        exitf(4);
 
     game.frame++;
-    usleep(500*1000);
+    usleep(100000);
   }
 
   /* Finish */
