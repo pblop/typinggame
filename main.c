@@ -7,8 +7,12 @@
 
 #define exitf(num) {unsetup_screen(); exit(num);}
 
+#define BACKGROUND_COLOUR 50, 50, 200
+
 void sigint_handler(int signum);
 void setup_sigint_handler(void);
+int draw_screen(game_t *game);
+int handle_user_input(game_t *game, termkey_t pressed_key);
 
 void sigint_handler(int signum)/*{{{*/
 {
@@ -28,9 +32,33 @@ void setup_sigint_handler(void)/*{{{*/
   sigaction(SIGINT, &action, NULL);
 }/*}}}*/
 
+int draw_screen(game_t *game)/*{{{*/
+{
+  printf(CLEAR REMOVE_COLOUR REMOVE_BACKGROUND GOTO_HOME
+         RGB_BACKGROUND GOTO, BACKGROUND_COLOUR, SCREEN_HEIGHT, SCREEN_WIDTH);
+
+  return 0;
+}
+/*}}}*/
+int handle_user_input(game_t *game, termkey_t pressed_key)/*{{{*/
+{
+  if (game == NULL)
+    return -1;
+
+  switch (pressed_key)
+  {
+    default: // Do not do anything for the rest of the keys
+      break;
+  }
+
+  return 0;
+}
+/*}}}*/
+
 int main()
 {
   game_t game;
+  termkey_t user_key;
 
   /* Screen and exit setup */
   setup_screen();
@@ -45,10 +73,18 @@ int main()
     exitf(2);
 
   while(1) {
-    
+    if ((user_key = get_user_input()) != KEY_NONE)
+    {
+      if (handle_user_input(&game, user_key) != 0)
+        exitf(3);
+    }
+
+    if (draw_screen(&game) != 0)
+      exitf(4);
 
     game.frame++;
   }
+
   /* Finish */
   unsetup_screen();
 
