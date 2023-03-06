@@ -197,8 +197,8 @@ double word_appearance_speed(game_t* game)/*{{{*/
 double word_move_speed(game_t* game)/*{{{*/
 {
   double secs_between_moves = (100.0/(game->score+1));
-  if (secs_between_moves > 0.3)
-    secs_between_moves = 0.3;
+  if (secs_between_moves > 0.5) // cutoff at around 190
+    secs_between_moves = 0.5;
 
   return secs_between_moves;
 }/*}}}*/
