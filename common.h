@@ -3,7 +3,7 @@
 
 #include <stdbool.h>
 
-#define SCREEN_HEIGHT 30
-#define SCREEN_WIDTH 30
+#define SCREEN_HEIGHT 15
+#define SCREEN_WIDTH 100
 
 #endif

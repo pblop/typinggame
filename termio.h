@@ -8,6 +8,8 @@
 #define GOTO CSI"%d;%dH"
 #define GOTO_HOME CSI"H"
 #define CLEAR CSI"2J"
+#define CLEAR_TO_HOME CSI"1J"
+#define CLEAR_LINE_TO_START CSI"1K"
 #define HIDE_CURSOR CSI"?25l"
 #define SHOW_CURSOR CSI"?25h"
 #define RGB_COLOUR CSI"38;2;%d;%d;%dm"

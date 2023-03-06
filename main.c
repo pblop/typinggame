@@ -94,8 +94,17 @@ int main()
   fprintf(stderr, "Loading words...\n");
   if (load_dict(&game, "words.txt") != 0)
     exitf(2);
+  fprintf(stderr, "Done!\n");
+
+  for (int i = 0; i < 100; i++)
+    fprintf(stderr, "%s\n", game.dict[i]);
 
   put_word_in_game(&game);
+  for (int i = 0; i < SCREEN_HEIGHT; i++)
+    fprintf(stderr, "%s", game.words[i].ptr);
+
+  while (1);
+
   while(1) {
     if (ensure_screen_size() != 0)
       exitf(5);
@@ -113,6 +122,7 @@ int main()
       exitf(4);
 
     game.frame++;
+    usleep(500*1000);
   }
 
   /* Finish */
