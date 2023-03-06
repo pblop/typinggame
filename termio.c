@@ -172,6 +172,23 @@ int get_window_size(int *width, int *height)/*{{{*/
   return 0;
 }/*}}}*/
 
+int msleep(long msec)/*{{{*/
+{
+  struct timespec ts;
+  int res;
+
+  if (msec < 0)
+    return -1;
+
+  ts.tv_sec = msec / 1000;
+  ts.tv_nsec = (msec % 1000) * 1000000L;
+
+  do {
+    res = nanosleep(&ts, &ts);
+  } while (res);
+
+  return res;
+}/*}}}*/
 void start_frame(void)/*{{{*/
 {
   frame_start = clock();
@@ -180,9 +197,6 @@ void ensure_frame_time(int ms)/*{{{*/
 {
   double elapsed = (double)(clock() - frame_start) / (CLOCKS_PER_SEC * 1000);
   if (elapsed < ms)
-  {
-    struct timespec ts = {0, (ms - elapsed) * 1000L};
-    nanosleep(&ts, NULL);
-  }
+    msleep(ms - elapsed);
 }/*}}}*/
 

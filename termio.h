@@ -75,6 +75,7 @@ void unsetup_screen(void);
 int ensure_screen_size(void);
 int get_window_size(int *width, int *height);
 
+int msleep(long msec);
 void start_frame(void);
 void ensure_frame_time(int ms);
 
