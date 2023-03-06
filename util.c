@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include <strings.h>
+#include <string.h>
 
 #define log1(str) fprintf(stderr, str"\n")
 #define log(str, ...) fprintf(stderr, str"\n", __VA_ARGS__)

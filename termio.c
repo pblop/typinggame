@@ -4,6 +4,9 @@
 #include <sys/select.h>
 #include <sys/ioctl.h>
 
+struct termios orig_screen_attrs;
+clock_t frame_start;
+
 // Copied this fn from
 // https://stackoverflow.com/questions/448944/c-non-blocking-keyboard-input
 int kbhit(void)/*{{{*/

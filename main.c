@@ -1,12 +1,12 @@
+#include "common.h"
+#include "termio.h"
+#include "util.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <signal.h>
-#include "termio.h"
-#include "util.h"
-#include "common.h"
 #include <time.h>
 #include <unistd.h>
-#include <strings.h>
+#include <string.h>
 
 #define exitf(num) {unsetup_screen(); exit(num);}
 

@@ -9,4 +9,6 @@
 // elements.
 #define WORD_AMOUNT 10
 
+#define _POSIX_C_SOURCE 200809L
+
 #endif

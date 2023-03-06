@@ -1,9 +1,9 @@
 #ifndef __TERMIO_H
 #define __TERMIO_H
 
+#include "common.h"
 #include <termios.h>
 #include <time.h>
-#include "common.h"
 
 #define CSI "\x1b["
 #define GOTO CSI"%d;%dH"
@@ -20,8 +20,8 @@
 #define UNDERLINE_ON CSI"4m"
 #define UNDERLINE_OFF CSI"24m"
 
-struct termios orig_screen_attrs;
-clock_t frame_start;
+extern struct termios orig_screen_attrs;
+extern clock_t frame_start;
 
 typedef struct {
   unsigned char r, g, b;

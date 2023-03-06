@@ -1,9 +1,9 @@
 #ifndef __UTIL_H
 #define __UTIL_H
 
+#include "common.h"
 #include <stdio.h>
 #include <time.h>
-#include "common.h"
 
 typedef struct {
   // A pointer to the word. If this word is not currently on screen, this
