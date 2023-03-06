@@ -29,6 +29,8 @@ typedef enum
   KEY_DOWN = 'D',
   KEY_LEFT = 'L',
   KEY_RIGHT = 'R',
+  KEY_Nn = 'N', // ñ
+
   KEY_A = 97,
   KEY_B = 98,
   KEY_C = 99,
@@ -43,7 +45,6 @@ typedef enum
   KEY_L = 108,
   KEY_M = 109,
   KEY_N = 110,
-  KEY_Nn = 'N', // ñ
   KEY_O = 111,
   KEY_P = 112,
   KEY_Q = 113,
