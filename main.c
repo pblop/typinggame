@@ -79,6 +79,9 @@ int draw_screen(game_t *game)/*{{{*/
       // screen). And at most len characters (the length of the word).
       for (int j = 0; j < x && j < len; j++)
       {
+        if (SCREEN_WIDTH - (x - j) < 1)
+          continue; // The character is not visible.
+
         if (i == selected_word)
           printf(UNDERLINE_ON);
         if (j < word->typedchars)
@@ -193,17 +196,14 @@ int main_loop(game_t *game)/*{{{*/
       // Word has reached the bottom of the screen. Remove it.
       clear_word(game, i);
     }
-    if (word->x >= SCREEN_WIDTH)
+    // Lose a life when an untyped character hits the border of the screen
+    if (word->x-word->typedchars >= SCREEN_WIDTH)
     {
       // Word has hit the left of the screen. Remove it.
       clear_word(game, i);
       game->lives--;
     }
   }
-
-  if (game->lives == 0)
-    return 1;
-
 
   if (every_secs(game, word_appearance_speed(game)))
     put_word_in_game(game);
@@ -244,6 +244,9 @@ int main()
 
     if (main_loop(&game) != 0)
       exitf(6);
+
+    if (game.lives <= 0)
+      break;
 
     if (every_secs(&game, 0.2))
       if (draw_screen(&game) != 0)
