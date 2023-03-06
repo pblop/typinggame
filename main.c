@@ -3,6 +3,7 @@
 #include <signal.h>
 #include "termio.h"
 #include "util.h"
+#include "common.h"
 
 #define exitf(num) {unsetup_screen(); exit(num);}
 

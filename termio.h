@@ -1,6 +1,8 @@
 #ifndef __TERMIO_H
 #define __TERMIO_H
+
 #include <termios.h>
+#include "common.h"
 
 #define CSI "\x1b["
 #define GOTO CSI"%d;%dH"

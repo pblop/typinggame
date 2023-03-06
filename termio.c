@@ -4,9 +4,6 @@
 #include <sys/select.h>
 #include <sys/ioctl.h>
 
-#define SCREEN_HEIGHT 30
-#define SCREEN_WIDTH 30
-
 // Copied this fn from
 // https://stackoverflow.com/questions/448944/c-non-blocking-keyboard-input
 int kbhit()/*{{{*/

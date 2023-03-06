@@ -2,6 +2,7 @@
 #define __UTIL_H
 
 #include <stdio.h>
+#include "common.h"
 
 typedef struct {
   // Goes up by the number of letters of each word you finish.
