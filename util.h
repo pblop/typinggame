@@ -5,6 +5,24 @@
 #include "common.h"
 
 typedef struct {
+  // A pointer to the word. If this word is not currently on screen, this
+  // ptr is NULL.
+  char* ptr;
+  // The number of chars the user has correctly typed in the current word.
+  int typedchars;
+
+  // The distance of the first character from the right side of the screen.
+  // When it reaches -1, you're down a life.
+  int x;
+
+  // The distance of the position where the word should be (its index in the
+  // words array), to where it currently is.
+  // This is to animate words falling off the screen whenever the user types
+  // all their characters correctly.
+  int y;
+} scrword_t;
+
+typedef struct {
   // Goes up by the number of letters of each word you finish.
   int score;
   // Whenever you reach 0, you die!
@@ -13,8 +31,14 @@ typedef struct {
   // Dictionaries must be a list of words, newline separated.
   // Number of words in the dictionary.
   int dictsize;
-  // The dictionary.
+  // The dictionary, an array of strings.
   char** dict;
+
+  // Words currently in screen.
+  scrword_t words[SCREEN_HEIGHT];
+
+  // The current frame
+  unsigned int frame;
 } game_t;
 
 int init_game(game_t* game);

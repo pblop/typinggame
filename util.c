@@ -18,6 +18,10 @@ int init_game(game_t* game)/*{{{*/
 
   srand(time(NULL));
 
+  // Init words.
+  for (int i = 0; i < SCREEN_HEIGHT; i++)
+    game->words[i] = (scrword_t) {NULL, 0, 0, 0};
+
   return 0;
 }
 /*}}}*/

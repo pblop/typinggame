@@ -45,7 +45,9 @@ int main()
     exitf(2);
 
   while(1) {
-    printf("%s", choose_random_word(&game));
+    
+
+    game.frame++;
   }
   /* Finish */
   unsetup_screen();
