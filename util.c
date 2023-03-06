@@ -187,7 +187,7 @@ int get_selected_word_i(game_t* game)/*{{{*/
 
 double word_appearance_speed(game_t* game)/*{{{*/
 {
-  double secs_between_appearance = 500/(game->score+1);
+  double secs_between_appearance = 500.0/(game->score+1);
   if (secs_between_appearance > 2)
     secs_between_appearance = 2;
 
@@ -196,7 +196,7 @@ double word_appearance_speed(game_t* game)/*{{{*/
 
 double word_move_speed(game_t* game)/*{{{*/
 {
-  double secs_between_moves = (100/(game->score+1));
+  double secs_between_moves = (100.0/(game->score+1));
   if (secs_between_moves > 0.3)
     secs_between_moves = 0.3;
 
