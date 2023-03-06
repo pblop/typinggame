@@ -1,5 +1,6 @@
 #include "util.h"
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 
@@ -57,12 +58,15 @@ char* mall_fword(FILE* fp)/*{{{*/
 
   // Allocate the word
   char* word = malloc(word_len * sizeof(char));
+  char* word = malloc((word_len+1) * sizeof(char));
   if (word == NULL)
     return NULL;
 
   // Fill the word
   for (int i = 0; i < word_len; i++)
     word[i] = fgetc(fp);
+  fgetc(fp); // Skip the newline
+  word[word_len] = '\0';
 
   return word;
 }
