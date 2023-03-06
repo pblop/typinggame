@@ -59,4 +59,7 @@ bool is_word_finished(scrword_t* word);
 void clear_word(game_t* game, int word_i);
 int get_selected_word_i(game_t* game);
 
+double word_appearance_speed(game_t* game);
+double word_move_speed(game_t* game);
+
 #endif

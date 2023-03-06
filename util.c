@@ -184,3 +184,21 @@ int get_selected_word_i(game_t* game)/*{{{*/
 
   return selected_i;
 }/*}}}*/
+
+double word_appearance_speed(game_t* game)/*{{{*/
+{
+  double secs_between_appearance = 500/(game->score+1);
+  if (secs_between_appearance > 2)
+    secs_between_appearance = 2;
+
+  return secs_between_appearance;
+}/*}}}*/
+
+double word_move_speed(game_t* game)/*{{{*/
+{
+  double secs_between_moves = (100/(game->score+1));
+  if (secs_between_moves > 0.3)
+    secs_between_moves = 0.3;
+
+  return secs_between_moves;
+}/*}}}*/

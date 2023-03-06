@@ -16,6 +16,7 @@
 #define BACKGROUND_COLOUR 150, 150, 255
 #define UNTYPED_CHAR_COLOUR 50, 50, 50
 #define TYPED_CHAR_COLOUR 250, 250, 250
+#define INTERFACE_COLOUR 10, 10, 10 
 
 void sigint_handler(int signum);
 void setup_sigint_handler(void);
@@ -54,7 +55,7 @@ int draw_screen(game_t *game)/*{{{*/
   // typed, and in another one if it has not yet been typed.
   // TODO: Draw words centered (if there are less words than the height of the
   // screen, have the same number of spaces on the top and the bottom).
-  int selected_word = get_selected_word_i(game);
+  int selected_word = get_selected_word_i(game);/*{{{*/
   for (int k = 0; k < 2; k++)
   {
     for (int i = 0; i < WORD_AMOUNT; i++)
@@ -91,6 +92,12 @@ int draw_screen(game_t *game)/*{{{*/
         printf(UNDERLINE_OFF);
     }
   }
+/*}}}*/
+
+  printf(GOTO RGB_COLOUR "Score: %d", WORD_AMOUNT+1, 5, INTERFACE_COLOUR, game->score);
+  printf(GOTO RGB_COLOUR "Lives: %d", WORD_AMOUNT+2, 5, INTERFACE_COLOUR, game->lives);
+  printf(GOTO RGB_COLOUR "[d] Word appearance speed: %.3f words/s", WORD_AMOUNT+3, 5, INTERFACE_COLOUR, 1/word_appearance_speed(game));
+  printf(GOTO RGB_COLOUR "[d] Word speed: %.3f pix/s", WORD_AMOUNT+4, 5, INTERFACE_COLOUR, 1/word_move_speed(game));
 
   fflush(stdout);
   return 0;
@@ -143,11 +150,8 @@ int main_loop(game_t *game)/*{{{*/
 
   // Make the speed the words appear at and the speed they move at
   // relative to the score.
-  double secs_between_moves = (100/(game->score+1));
-  if (secs_between_moves > 1)
-    secs_between_moves = 1;
 
-  if (every_secs(game, secs_between_moves)) {
+  if (every_secs(game, word_move_speed(game))) {
     for (int i = 0; i < WORD_AMOUNT; i++)
     {
       scrword_t *word = &game->words[i];
@@ -202,11 +206,8 @@ int main_loop(game_t *game)/*{{{*/
   if (game->lives == 0)
     return 1;
 
-  double secs_between_appearance = 500/(game->score+1);
-  if (secs_between_appearance > 2)
-    secs_between_appearance = 2;
 
-  if (every_secs(game, secs_between_appearance))
+  if (every_secs(game, word_appearance_speed(game)))
     put_word_in_game(game);
 
   return 0;
