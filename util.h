@@ -42,6 +42,8 @@ typedef struct {
 } game_t;
 
 int init_game(game_t* game);
+
+char* mall_fword(FILE *fp); // used by load_dict
 int load_dict(game_t* game, char* filename);
 char* choose_random_word(game_t* game);
 
