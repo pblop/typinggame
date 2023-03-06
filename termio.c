@@ -104,9 +104,7 @@ int ensure_screen_size(void)/*{{{*/
   if (get_window_size(&width, &height) != 0)
     return -1;
 
-  // if we are displaying a (WxH) 31x31 image we need 31x16 lines, I use
-  // (x+1)/2 as a way to divide and ceil at the same time.
-  while (width < SCREEN_WIDTH || height < (SCREEN_HEIGHT+1)/2)
+  while (width < SCREEN_WIDTH || height < SCREEN_HEIGHT)
   {
     if (prevwidth != width || prevheight != height)
     {
