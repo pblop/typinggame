@@ -129,13 +129,11 @@ int handle_user_input(game_t *game, termkey_t pressed_key)/*{{{*/
   // first x characters (or at most the length of the word).
   // NOTE: Checking only the first x characters may not be needed now that
   // the selected word is handled by a different function.
-  for (int j = 0; j < x && j < len; j++)
-  {
-    if (j < word->typedchars)
-      continue; // Already typed.
-    if (word->ptr[j] == pressed_key)
-      word->typedchars++;
-  }
+  if (word->typedchars >= x || word->typedchars == len)
+    return 0; // No more characters to type.
+ 
+  if (word->ptr[word->typedchars] == pressed_key)
+    word->typedchars++;
 
   return 0;
 }
