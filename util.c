@@ -161,7 +161,7 @@ void clear_word(game_t* game, int word_i)/*{{{*/
   game->words[word_i] = (scrword_t) {NULL, 0, 0, 0, 0, 0};
 }/*}}}*/
 
-// Criteria: oldest finished word.
+// Criteria: oldest unfinished word.
 int get_selected_word_i(game_t* game)/*{{{*/
 {
   scrword_t *selected_word = NULL, *word;
