@@ -54,7 +54,7 @@ int draw_screen(game_t *game)/*{{{*/
   // typed, and in another one if it has not yet been typed.
   // TODO: Draw words centered (if there are less words than the height of the
   // screen, have the same number of spaces on the top and the bottom).
-  bool is_current_word = true;
+  int selected_word = get_selected_word_i(game);
   for (int k = 0; k < 2; k++)
   {
     for (int i = 0; i < WORD_AMOUNT; i++)
@@ -78,7 +78,7 @@ int draw_screen(game_t *game)/*{{{*/
       // screen). And at most len characters (the length of the word).
       for (int j = 0; j < x && j < len; j++)
       {
-        if (is_current_word && !is_word_finished(word))
+        if (i == selected_word)
           printf(UNDERLINE_ON);
         if (j < word->typedchars)
           printf(GOTO RGB_COLOUR, i+1+y, SCREEN_WIDTH - (x - j), TYPED_CHAR_COLOUR);
@@ -87,11 +87,8 @@ int draw_screen(game_t *game)/*{{{*/
         printf("%c", word->ptr[j]);
       }
 
-      if (is_current_word && !is_word_finished(word))
-      {
+      if (i == selected_word)
         printf(UNDERLINE_OFF);
-        is_current_word = false;
-      }
     }
   }
 
@@ -104,36 +101,34 @@ int handle_user_input(game_t *game, termkey_t pressed_key)/*{{{*/
   if (game == NULL)
     return -1;
 
-  // TODO: Go through each word's next not-typed character, and compare it
+  // Go through the selected word's next not-typed character, and compare it
   // to the pressed key, if it is the pressed key, increment that word's
   // typedchars counter by one.
-  // EXTRA TODO: Maybe only take into consideration characters that are visible,
-  // because words start off the screen, and slowly appear.
-  for (int i = 0; i < WORD_AMOUNT; i++)
+  int selected_word_i = get_selected_word_i(game);
+  if (selected_word_i == -1)
+    return -2;
+
+  scrword_t *word = &game->words[selected_word_i];
+  if (word->ptr == NULL)
+    return -3; // No word.
+
+  int x = word->x;
+  int len = strlen(word->ptr);
+
+  if (is_word_finished(word))
+    return -4; // Word is already typed.
+
+  // We're only displaying x characters. So we're only interested in the
+  // first x characters (or at most the length of the word).
+  // NOTE: Checking only the first x characters may not be needed now that
+  // the selected word is handled by a different function.
+  for (int j = 0; j < x && j < len; j++)
   {
-    scrword_t *word = &game->words[i];
-    if (word->ptr == NULL)
-      continue; // No word.
-
-    int x = word->x;
-    int len = strlen(word->ptr);
-
-    if (is_word_finished(word))
-      continue; // Word is already typed.
-
-    // We're only displaying x characters. So we're only interested in the
-    // first x characters (or at most the length of the word).
-    for (int j = 0; j < x && j < len; j++)
-    {
-      if (j < word->typedchars)
-        continue; // Already typed.
-      if (word->ptr[j] == pressed_key)
-        word->typedchars++;
-    }
-    break; // Only handle the first word. 
-           // TODO: Only handle the first word with characters on screen!
+    if (j < word->typedchars)
+      continue; // Already typed.
+    if (word->ptr[j] == pressed_key)
+      word->typedchars++;
   }
-
 
   return 0;
 }

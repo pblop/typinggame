@@ -161,3 +161,26 @@ void clear_word(game_t* game, int word_i)/*{{{*/
   game->words[word_i] = (scrword_t) {NULL, 0, 0, 0, 0, 0};
 }/*}}}*/
 
+// Criteria: oldest finished word.
+int get_selected_word_i(game_t* game)/*{{{*/
+{
+  scrword_t *selected_word = NULL, *word;
+  int selected_i = -1;
+  
+  for (int i = 0; i < WORD_AMOUNT; i++)
+  {
+    word = &game->words[i];
+
+    // TODO: Maybe only select words whose characters are visible and non-typed,
+    // because words start off the screen, and slowly appear.
+    if (!(word->ptr == NULL) && !is_word_finished(word)) {
+      if (selected_word == NULL || word->clock < selected_word->clock)
+      {
+        selected_word = word;
+        selected_i = i;
+      }
+    }
+  }
+
+  return selected_i;
+}/*}}}*/

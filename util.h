@@ -57,5 +57,6 @@ char* choose_random_word(game_t* game);
 int put_word_in_game(game_t* game);
 bool is_word_finished(scrword_t* word);
 void clear_word(game_t* game, int word_i);
+int get_selected_word_i(game_t* game);
 
 #endif
