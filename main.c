@@ -151,6 +151,7 @@ int main_loop(game_t *game)/*{{{*/
         word->x++;
     }
   }
+
   // Move every word that's finished (strlen(word.ptr) == word.typedchars)
   // down (increment y).
   if (every_secs(game, 0.5))
@@ -161,7 +162,17 @@ int main_loop(game_t *game)/*{{{*/
         continue; // No word.
 
       if (is_word_finished(word))
+      {
+        // If this is the first time we're moving it, add its point value to
+        // the score. (We must only do it once, so doing it on the first
+        // occasion we move it is a great place to do it)
+        if (word->y == 0)
+        {
+          game->score += word->length;
+        }
+
         word->y++;
+      }
     }
 
   for (int i = 0; i < WORD_AMOUNT; i++)
@@ -170,7 +181,7 @@ int main_loop(game_t *game)/*{{{*/
     if (word->ptr == NULL)
       continue; // No word.
 
-    if (word->y+i+1 >= WORD_AMOUNT)
+    if (word->y+i+1 >= SCREEN_HEIGHT)
     {
       // Word has reached the bottom of the screen. Remove it.
       clear_word(game, i);
