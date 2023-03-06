@@ -140,7 +140,14 @@ int main_loop(game_t *game)/*{{{*/
 
   // Move every word one position to the left (increment x). Maybe make
   // the word speed relative to the spent time, or the score.
-  if (every_secs(game, 0.3)) {
+
+  // Make the speed the words appear at and the speed they move at
+  // relative to the score.
+  double secs_between_moves = (100/(game->score+1));
+  if (secs_between_moves > 1)
+    secs_between_moves = 1;
+
+  if (every_secs(game, secs_between_moves)) {
     for (int i = 0; i < WORD_AMOUNT; i++)
     {
       scrword_t *word = &game->words[i];
@@ -195,7 +202,11 @@ int main_loop(game_t *game)/*{{{*/
   if (game->lives == 0)
     return 1;
 
-  if (every_secs(game, 2))
+  double secs_between_appearance = 500/(game->score+1);
+  if (secs_between_appearance > 2)
+    secs_between_appearance = 2;
+
+  if (every_secs(game, secs_between_appearance))
     put_word_in_game(game);
 
   return 0;
