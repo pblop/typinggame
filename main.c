@@ -99,11 +99,9 @@ int main_loop(game_t *game)/*{{{*/
   if (game == NULL)
     return -1;
 
-  // TODO: Move every word one position to the left (increment x). Maybe make
-  //       the word speed relative to the spent time, or the score.
-  // TODO: Move every word that's finished (strlen(word.ptr) == word.typedchars)
-  //       down (increment y).
-  if (game->frame % 100) {
+  // Move every word one position to the left (increment x). Maybe make
+  // the word speed relative to the spent time, or the score.
+  if (game->frame % 60 == 0) {
     for (int i = 0; i < SCREEN_HEIGHT; i++)
     {
       scrword_t *word = &game->words[i];
@@ -113,6 +111,18 @@ int main_loop(game_t *game)/*{{{*/
       word->x++;
     }
   }
+  // Move every word that's finished (strlen(word.ptr) == word.typedchars)
+  // down (increment y).
+  if (game->frame % 30 == 0)
+    for (int i = 0; i < SCREEN_HEIGHT; i++)
+    {
+      scrword_t *word = &game->words[i];
+      if (word->ptr == NULL)
+        continue; // No word.
+
+      if (strlen(word->ptr) == word->typedchars)
+        word->y++;
+    }
 
 
   return 0;
