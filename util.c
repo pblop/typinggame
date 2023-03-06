@@ -48,7 +48,7 @@ int load_dict(game_t* game, char* filename)/*{{{*/
   int wordsize = 0; // The size of the word, filled in the first iteration.
   int wordindex = 0;// The current index of the character we're copying inside
                     // the word, second iteration.
-  int is_looking_for_size = 1;
+  bool is_looking_for_size = true;
   // This loop iterates every word twice. The first time we find out the word
   // size, and the second time we copy it onto its place on the array.
   while (wordn < game->dictsize)
@@ -67,7 +67,7 @@ int load_dict(game_t* game, char* filename)/*{{{*/
         game->dict[wordn] = malloc(wordsize * sizeof(char));
         if (game->dict[wordn] == NULL)
           return -4;
-        is_looking_for_size = 0;
+        is_looking_for_size = false;
       }
       else
         wordsize++;
@@ -79,7 +79,7 @@ int load_dict(game_t* game, char* filename)/*{{{*/
       if (c == '\n' || c == EOF)
       {
         wordn++;
-        is_looking_for_size = 1;
+        is_looking_for_size = false;
         wordsize = 0;
         wordindex = 0;
 
@@ -92,11 +92,11 @@ int load_dict(game_t* game, char* filename)/*{{{*/
   return 0;
 }/*}}}*/
 
-char* choose_random_word(game_t* game)
+char* choose_random_word(game_t* game)/*{{{*/
 {
   if (game == NULL)
     return NULL;
 
   int n = rand() % game->dictsize;
   return game->dict[n];
-}
+}/*}}}*/
