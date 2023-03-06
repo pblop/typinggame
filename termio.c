@@ -170,3 +170,14 @@ int get_window_size(int *width, int *height)/*{{{*/
   return 0;
 }/*}}}*/
 
+void start_frame(void)/*{{{*/
+{
+  frame_start = clock();
+}/*}}}*/
+void ensure_frame_time(int ms)/*{{{*/
+{
+  double elapsed = (double)(clock() - frame_start) / (CLOCKS_PER_SEC * 1000);
+  if (elapsed < ms)
+    usleep((ms - elapsed) * 1000);
+}/*}}}*/
+

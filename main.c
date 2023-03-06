@@ -143,6 +143,8 @@ int main()
     if (ensure_screen_size() != 0)
       exitf(5);
 
+    start_frame();
+
     if ((user_key = get_user_input()) != KEY_NONE)
     {
       if (handle_user_input(&game, user_key) != 0)
@@ -157,7 +159,7 @@ int main()
         exitf(4);
 
     game.frame++;
-    usleep(100000);
+    ensure_frame_time(1000 / 60); // 60 FPS
   }
 
   /* Finish */

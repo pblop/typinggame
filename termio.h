@@ -2,6 +2,7 @@
 #define __TERMIO_H
 
 #include <termios.h>
+#include <time.h>
 #include "common.h"
 
 #define CSI "\x1b["
@@ -18,6 +19,7 @@
 #define REMOVE_BACKGROUND CSI"49m"
 
 struct termios orig_screen_attrs;
+clock_t frame_start;
 
 typedef struct {
   unsigned char r, g, b;
@@ -71,5 +73,7 @@ void unsetup_screen(void);
 int ensure_screen_size(void);
 int get_window_size(int *width, int *height);
 
+void start_frame(void);
+void ensure_frame_time(int ms);
 
 #endif
