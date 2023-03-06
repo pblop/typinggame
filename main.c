@@ -34,8 +34,11 @@ void setup_sigint_handler(void)/*{{{*/
 
 int draw_screen(game_t *game)/*{{{*/
 {
+  // Fill the background with blue.
   printf(CLEAR REMOVE_COLOUR REMOVE_BACKGROUND GOTO_HOME
          RGB_BACKGROUND GOTO, BACKGROUND_COLOUR, SCREEN_HEIGHT, SCREEN_WIDTH);
+
+
 
   return 0;
 }
@@ -74,6 +77,9 @@ int main()
     exitf(2);
 
   while(1) {
+    if (ensure_screen_size() != 0)
+      exitf(5);
+
     if ((user_key = get_user_input()) != KEY_NONE)
     {
       if (handle_user_input(&game, user_key) != 0)
