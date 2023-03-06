@@ -25,11 +25,11 @@ typedef struct {
 typedef enum
 {
   KEY_NONE = -1,
-  KEY_UP = 'U',
-  KEY_DOWN = 'D',
-  KEY_LEFT = 'L',
-  KEY_RIGHT = 'R',
-  KEY_Nn = 'N', // ñ
+  KEY_UP = 0,
+  KEY_DOWN,
+  KEY_LEFT,
+  KEY_RIGHT,
+  KEY_Nn, // ñ
 
   KEY_A = 97,
   KEY_B = 98,
