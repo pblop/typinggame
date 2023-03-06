@@ -39,7 +39,8 @@ int draw_screen(game_t *game)/*{{{*/
   printf(CLEAR REMOVE_COLOUR REMOVE_BACKGROUND GOTO_HOME
          RGB_BACKGROUND GOTO, BACKGROUND_COLOUR, SCREEN_HEIGHT, SCREEN_WIDTH);
 
-  
+  // TODO: Print each word character, in one colour if it has already been
+  // typed, and in another one if it has not yet been typed.
 
   return 0;
 }
@@ -49,6 +50,11 @@ int handle_user_input(game_t *game, termkey_t pressed_key)/*{{{*/
   if (game == NULL)
     return -1;
 
+  // TODO: Go through each word's next not-typed character, and compare it
+  // to the pressed key, if it is the pressed key, increment that word's
+  // typedchars counter by one.
+  // EXTRA TODO: Maybe only take into consideration characters that are visible,
+  // because words start off the screen, and slowly appear.
   switch (pressed_key)
   {
     default: // Do not do anything for the rest of the keys
@@ -63,7 +69,10 @@ int main_loop(game_t *game)/*{{{*/
   if (game == NULL)
     return -1;
 
-  
+  // TODO: Move every word one position to the left (increment x). Maybe make
+  //       the word speed relative to the spent time, or the score.
+  // TODO: Move every word that's finished (strlen(word.ptr) == word.typedchars)
+  //       down (increment y).
 
   return 0;
 }/*}}}*/
@@ -86,6 +95,7 @@ int main()
   if (load_dict(&game, "words.txt") != 0)
     exitf(2);
 
+  put_word_in_game(&game);
   while(1) {
     if (ensure_screen_size() != 0)
       exitf(5);
