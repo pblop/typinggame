@@ -23,9 +23,6 @@ typedef struct {
   // This is to animate words falling off the screen whenever the user types
   // all their characters correctly.
   int y;
-
-  // The moment this word was created.
-  clock_t clock;
 } scrword_t;
 
 typedef struct {

@@ -257,8 +257,11 @@ int main()
     ensure_frame_time(1000 / FPS);
   }
 
+
   /* Finish */
   unsetup_screen();
+
+  printf("Game over! Score: %d", game.score);
 
   return 0;
 }

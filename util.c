@@ -23,7 +23,7 @@ int init_game(game_t* game)/*{{{*/
 
   // Init words.
   for (int i = 0; i < SCREEN_HEIGHT; i++)
-    game->words[i] = (scrword_t) {NULL, 0, 0, 0, 0, 0};
+    clear_word(game, i);
 
   return 0;
 }
@@ -137,9 +137,6 @@ int put_word_in_game(game_t* game)/*{{{*/
   char* word = choose_random_word(game);
   game->words[chosen_slot].ptr = word;
   game->words[chosen_slot].length = strlen(word);
-  game->words[chosen_slot].clock = clock(); // This could be an issue if it overflows.
-                                            // For a little bit the newest words could
-                                            // look like the oldest for the program.
   
   // NOTE: We don't set the other values of the word, because when a spot is
   // emptied they should be all set to the init_game defaults.
@@ -158,10 +155,10 @@ bool is_word_finished(scrword_t* word)/*{{{*/
 
 void clear_word(game_t* game, int word_i)/*{{{*/
 {
-  game->words[word_i] = (scrword_t) {NULL, 0, 0, 0, 0, 0};
+  game->words[word_i] = (scrword_t) {NULL, 0, 0, 0, 0};
 }/*}}}*/
 
-// Criteria: oldest unfinished word.
+// Criteria: furthest left unfinished word.
 int get_selected_word_i(game_t* game)/*{{{*/
 {
   scrword_t *selected_word = NULL, *word;
@@ -174,7 +171,7 @@ int get_selected_word_i(game_t* game)/*{{{*/
     // TODO: Maybe only select words whose characters are visible and non-typed,
     // because words start off the screen, and slowly appear.
     if (!(word->ptr == NULL) && !is_word_finished(word)) {
-      if (selected_word == NULL || word->clock < selected_word->clock)
+      if (selected_word == NULL || word->x > selected_word->x)
       {
         selected_word = word;
         selected_i = i;
