@@ -167,9 +167,7 @@ int main_loop(game_t *game)/*{{{*/
         // the score. (We must only do it once, so doing it on the first
         // occasion we move it is a great place to do it)
         if (word->y == 0)
-        {
           game->score += word->length;
-        }
 
         word->y++;
       }
