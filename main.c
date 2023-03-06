@@ -26,6 +26,7 @@ int main_loop(game_t *game);
 
 void sigint_handler(int signum)/*{{{*/
 {
+  UNUSED(signum);
   unsetup_screen();
   exit(0);
 }/*}}}*/

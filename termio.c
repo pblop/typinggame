@@ -102,7 +102,6 @@ termkey_t get_user_input(void)/*{{{*/
 int setup_screen(void)/*{{{*/
 {
   struct termios tattr;
-  sigset_t empty_set;
   
   // set noncanonical input mode
   if (!isatty(STDIN_FILENO))
@@ -181,6 +180,9 @@ void ensure_frame_time(int ms)/*{{{*/
 {
   double elapsed = (double)(clock() - frame_start) / (CLOCKS_PER_SEC * 1000);
   if (elapsed < ms)
-    usleep((ms - elapsed) * 1000);
+  {
+    struct timespec ts = {0, (ms - elapsed) * 1000L};
+    nanosleep(&ts, NULL);
+  }
 }/*}}}*/
 

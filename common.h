@@ -11,4 +11,6 @@
 
 #define _POSIX_C_SOURCE 200809L
 
+#define UNUSED(x) (void)(x)
+
 #endif

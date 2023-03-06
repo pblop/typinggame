@@ -9,13 +9,13 @@ typedef struct {
   // A pointer to the word. If this word is not currently on screen, this
   // ptr is NULL.
   char* ptr;
-  unsigned int length;
+  int length;
 
   // The number of chars the user has correctly typed in the current word.
-  unsigned int typedchars;
+  int typedchars;
 
   // The distance of the first character from the right side of the screen.
-  // When it reaches -1, you're down a life.
+  // When it reaches SCREEN_WIDTH, you're down a life.
   int x;
 
   // The distance of the position where the word should be (its index in the

@@ -10,6 +10,9 @@ termio.o: termio.c termio.h common.h
 util.o: util.c util.h common.h
 	$(CC) $(CFLAGS) -c util.c
 
+clean: 
+	rm -f *.o typinggame
+
 run: typinggame
 	./typinggame
 
