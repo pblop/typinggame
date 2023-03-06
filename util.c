@@ -15,6 +15,7 @@ int init_game(game_t* game)/*{{{*/
   game->lives = 3; // The initial number of lives.
   game->dictsize = -1;
   game->dict = NULL;
+  game->frame = 0;
 
   srand(time(NULL));
 
