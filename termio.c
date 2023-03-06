@@ -27,16 +27,35 @@ termkey_t get_user_input()/*{{{*/
 
   switch (c)
   {
-    case 'w':
-      return KEY_W;
-    case 'a':
-      return KEY_A;
-    case 's':
-      return KEY_S;
-    case 'd':
-      return KEY_D;
+    case 'a': case 'A': return KEY_A;
+    case 'b': case 'B': return KEY_B;
+    case 'c': case 'C': return KEY_C;
+    case 'd': case 'D': return KEY_D;
+    case 'e': case 'E': return KEY_E;
+    case 'f': case 'F': return KEY_F;
+    case 'g': case 'G': return KEY_G;
+    case 'h': case 'H': return KEY_H;
+    case 'i': case 'I': return KEY_I;
+    case 'j': case 'J': return KEY_J;
+    case 'k': case 'K': return KEY_K;
+    case 'l': case 'L': return KEY_L;
+    case 'm': case 'M': return KEY_M;
+    case 'n': case 'N': return KEY_N;
+    case 'o': case 'O': return KEY_O;
+    case 'p': case 'P': return KEY_P;
+    case 'q': case 'Q': return KEY_Q;
+    case 'r': case 'R': return KEY_R;
+    case 's': case 'S': return KEY_S;
+    case 't': case 'T': return KEY_T;
+    case 'u': case 'U': return KEY_U;
+    case 'v': case 'V': return KEY_V;
+    case 'w': case 'W': return KEY_W;
+    case 'x': case 'X': return KEY_X;
+    case 'y': case 'Y': return KEY_Y;
+    case 'z': case 'Z': return KEY_Z;
 
     case 27: // ansi escape code for arrows
+      /*{{{*/
       if ((c = getc(stdin)) == EOF)
         return KEY_NONE;
       if (c == 91)// continuation of the ansi escape code for arrows
@@ -57,10 +76,23 @@ termkey_t get_user_input()/*{{{*/
         }
       }
 
-      break;
+      break;/*}}}*/
+
+    case 195: // utf-8 stuff (ñ)
+      /*{{{*/
+      if ((c = getc(stdin)) == EOF)
+        return KEY_NONE;
+      if (c == 177)// continuation of the ansi escape code for ñ
+      {
+        if ((c = getc(stdin)) == EOF)
+          return KEY_NONE;
+
+        if (c == 10)
+          return KEY_Nn;
+      }
+
+      break;/*}}}*/
   }
-
-
   return KEY_NONE;
 }/*}}}*/
 
