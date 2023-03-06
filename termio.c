@@ -6,7 +6,7 @@
 
 // Copied this fn from
 // https://stackoverflow.com/questions/448944/c-non-blocking-keyboard-input
-int kbhit()/*{{{*/
+int kbhit(void)/*{{{*/
 {
   struct timeval tv = {0L, 0L};
 
@@ -15,7 +15,7 @@ int kbhit()/*{{{*/
   FD_SET(0, &fds);
   return select(1, &fds, NULL, NULL, &tv) > 0;
 }/*}}}*/
-termkey_t get_user_input()/*{{{*/
+termkey_t get_user_input(void)/*{{{*/
 {
   int c;
 

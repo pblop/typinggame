@@ -227,7 +227,7 @@ int main()
         exitf(4);
 
     game.frame++;
-    ensure_frame_time(1000 / FPS); // 60 FPS
+    ensure_frame_time(1000 / FPS);
   }
 
   /* Finish */
