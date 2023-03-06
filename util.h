@@ -49,5 +49,6 @@ char* choose_random_word(game_t* game);
 
 // This places a random word into the game.
 int put_word_in_game(game_t* game);
+bool is_word_finished(scrword_t* word);
 
 #endif

@@ -49,25 +49,35 @@ int draw_screen(game_t *game)/*{{{*/
 
   // TODO: Print each word character, in one colour if it has already been
   // typed, and in another one if it has not yet been typed.
-  for (int i = 0; i < SCREEN_HEIGHT; i++)
+  for (int k = 0; k < 2; k++)
   {
-    scrword_t *word = &game->words[i];
-    if (word->ptr == NULL)
-      continue; // No word.
-
-    int x = word->x;
-    int y = word->y;
-    int len = strlen(word->ptr);
-
-    // Only display x characters (because only x characters are shown on the
-    // screen). And at most len characters (the length of the word).
-    for (int j = 0; j < x && j < len; j++)
+    for (int i = 0; i < SCREEN_HEIGHT; i++)
     {
-      if (j < word->typedchars)
-        printf(GOTO RGB_COLOUR, i+1+y, SCREEN_WIDTH - (x - j), TYPED_CHAR_COLOUR);
-      else
-        printf(GOTO RGB_COLOUR, i+1+y, SCREEN_WIDTH - (x - j), UNTYPED_CHAR_COLOUR);
-      printf("%c", word->ptr[j]);
+      scrword_t *word = &game->words[i];
+      if (word->ptr == NULL)
+        continue; // No word.
+
+      // Print the finished words first, and then the unfinished ones on top,
+      // so that the unfinished ones are not hidden by the finished ones.
+      if (k == 0 && !is_word_finished(word))
+        continue;
+      if (k == 1 && is_word_finished(word))
+        continue;
+
+      int x = word->x;
+      int y = word->y;
+      int len = strlen(word->ptr);
+
+      // Only display x characters (because only x characters are shown on the
+      // screen). And at most len characters (the length of the word).
+      for (int j = 0; j < x && j < len; j++)
+      {
+        if (j < word->typedchars)
+          printf(GOTO RGB_COLOUR, i+1+y, SCREEN_WIDTH - (x - j), TYPED_CHAR_COLOUR);
+        else
+          printf(GOTO RGB_COLOUR, i+1+y, SCREEN_WIDTH - (x - j), UNTYPED_CHAR_COLOUR);
+        printf("%c", word->ptr[j]);
+      }
     }
   }
 
@@ -94,7 +104,7 @@ int handle_user_input(game_t *game, termkey_t pressed_key)/*{{{*/
     int x = word->x;
     int len = strlen(word->ptr);
 
-    if (word->typedchars == len-1)
+    if (is_word_finished(word))
       continue; // Word is already typed.
 
     // We're only displaying x characters. So we're only interested in the
@@ -106,6 +116,8 @@ int handle_user_input(game_t *game, termkey_t pressed_key)/*{{{*/
       if (word->ptr[j] == pressed_key)
         word->typedchars++;
     }
+    break; // Only handle the first word. 
+           // TODO: Only handle the first word with characters on screen!
   }
 
 
@@ -126,7 +138,7 @@ int main_loop(game_t *game)/*{{{*/
       if (word->ptr == NULL)
         continue; // No word.
 
-      if (strlen(word->ptr)-1 != word->typedchars)
+      if (!is_word_finished(word))
         word->x++;
     }
   }
@@ -139,7 +151,7 @@ int main_loop(game_t *game)/*{{{*/
       if (word->ptr == NULL)
         continue; // No word.
 
-      if (strlen(word->ptr)-1 == word->typedchars)
+      if (is_word_finished(word))
         word->y++;
     }
 

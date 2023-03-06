@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <strings.h>
 
 #define log1(str) fprintf(stderr, str"\n")
 #define log(str, ...) fprintf(stderr, str"\n", __VA_ARGS__)
@@ -140,3 +141,12 @@ int put_word_in_game(game_t* game)/*{{{*/
 
   return 0;
 }/*}}}*/
+
+bool is_word_finished(scrword_t* word)
+{
+  if (word == NULL)
+    return true;
+
+  return word->typedchars == strlen(word->ptr) - 1;
+}
+
