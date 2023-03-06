@@ -144,7 +144,7 @@ int main_loop(game_t *game)/*{{{*/
 
   // Move every word one position to the left (increment x). Maybe make
   // the word speed relative to the spent time, or the score.
-  if (every_secs(game, 0.5)) {
+  if (every_secs(game, 0.3)) {
     for (int i = 0; i < SCREEN_HEIGHT; i++)
     {
       scrword_t *word = &game->words[i];
