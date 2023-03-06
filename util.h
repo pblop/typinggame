@@ -35,7 +35,7 @@ typedef struct {
   char** dict;
 
   // Words currently in screen.
-  scrword_t words[SCREEN_HEIGHT];
+  scrword_t words[WORD_AMOUNT];
 
   // The current frame
   unsigned int frame;

@@ -52,11 +52,12 @@ int draw_screen(game_t *game)/*{{{*/
 
   // Print each word character, in one colour if it has already been
   // typed, and in another one if it has not yet been typed.
-  // TODO: Underline the current selected word.
+  // TODO: Draw words centered (if there are less words than the height of the
+  // screen, have the same number of spaces on the top and the bottom).
   bool is_current_word = true;
   for (int k = 0; k < 2; k++)
   {
-    for (int i = 0; i < SCREEN_HEIGHT; i++)
+    for (int i = 0; i < WORD_AMOUNT; i++)
     {
       scrword_t *word = &game->words[i];
       if (word->ptr == NULL)
@@ -108,7 +109,7 @@ int handle_user_input(game_t *game, termkey_t pressed_key)/*{{{*/
   // typedchars counter by one.
   // EXTRA TODO: Maybe only take into consideration characters that are visible,
   // because words start off the screen, and slowly appear.
-  for (int i = 0; i < SCREEN_HEIGHT; i++)
+  for (int i = 0; i < WORD_AMOUNT; i++)
   {
     scrword_t *word = &game->words[i];
     if (word->ptr == NULL)
@@ -145,7 +146,7 @@ int main_loop(game_t *game)/*{{{*/
   // Move every word one position to the left (increment x). Maybe make
   // the word speed relative to the spent time, or the score.
   if (every_secs(game, 0.3)) {
-    for (int i = 0; i < SCREEN_HEIGHT; i++)
+    for (int i = 0; i < WORD_AMOUNT; i++)
     {
       scrword_t *word = &game->words[i];
       if (word->ptr == NULL)
@@ -158,7 +159,7 @@ int main_loop(game_t *game)/*{{{*/
   // Move every word that's finished (strlen(word.ptr) == word.typedchars)
   // down (increment y).
   if (every_secs(game, 0.5))
-    for (int i = 0; i < SCREEN_HEIGHT; i++)
+    for (int i = 0; i < WORD_AMOUNT; i++)
     {
       scrword_t *word = &game->words[i];
       if (word->ptr == NULL)
@@ -168,13 +169,13 @@ int main_loop(game_t *game)/*{{{*/
         word->y++;
     }
 
-  for (int i = 0; i < SCREEN_HEIGHT; i++)
+  for (int i = 0; i < WORD_AMOUNT; i++)
   {
     scrword_t *word = &game->words[i];
     if (word->ptr == NULL)
       continue; // No word.
 
-    if (word->y+i+1 >= SCREEN_HEIGHT)
+    if (word->y+i+1 >= WORD_AMOUNT)
     {
       // Word has reached the bottom of the screen. Remove it.
       free(word->ptr);
