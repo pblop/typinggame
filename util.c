@@ -119,6 +119,10 @@ int put_word_in_game(game_t* game)/*{{{*/
   int free_numbers[SCREEN_HEIGHT]; // The horizontal lines that don't yet have a
                                    // word in them.
   int free_numbers_len = 0; // The number of horizontal lines that ...
+
+  if (free_numbers_len <= 0)
+    return 0;
+
   for (int i = 0; i < SCREEN_HEIGHT; i++)
   {
     if (game->words[i].ptr != NULL)
