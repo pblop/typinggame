@@ -10,6 +10,9 @@
 
 #define exitf(num) {unsetup_screen(); exit(num);}
 
+#define FPS 120
+#define every_secs(g, n) ((g)->frame % ((int) (FPS * n)) == 0)
+
 #define BACKGROUND_COLOUR 150, 150, 255
 #define UNTYPED_CHAR_COLOUR 50, 50, 50
 #define TYPED_CHAR_COLOUR 250, 250, 250
@@ -131,7 +134,7 @@ int main_loop(game_t *game)/*{{{*/
 
   // Move every word one position to the left (increment x). Maybe make
   // the word speed relative to the spent time, or the score.
-  if (game->frame % 30 == 0) {
+  if (every_secs(game, 0.5)) {
     for (int i = 0; i < SCREEN_HEIGHT; i++)
     {
       scrword_t *word = &game->words[i];
@@ -144,7 +147,7 @@ int main_loop(game_t *game)/*{{{*/
   }
   // Move every word that's finished (strlen(word.ptr) == word.typedchars)
   // down (increment y).
-  if (game->frame % 30 == 0)
+  if (every_secs(game, 0.5))
     for (int i = 0; i < SCREEN_HEIGHT; i++)
     {
       scrword_t *word = &game->words[i];
@@ -179,7 +182,7 @@ int main_loop(game_t *game)/*{{{*/
   if (game->lives == 0)
     return 1;
 
-  if (game->frame % 100 == 0)
+  if (every_secs(game, 2))
     put_word_in_game(game);
 
   return 0;
@@ -219,12 +222,12 @@ int main()
     if (main_loop(&game) != 0)
       exitf(6);
 
-    if (game.frame % 50 == 0)
+    if (every_secs(&game, 0.2))
       if (draw_screen(&game) != 0)
         exitf(4);
 
     game.frame++;
-    ensure_frame_time(1000 / 60); // 60 FPS
+    ensure_frame_time(1000 / FPS); // 60 FPS
   }
 
   /* Finish */
